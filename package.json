@@ -1,0 +1,50 @@
+{
+  "name": "VincallApp",
+  "version": "0.0.9",
+  "description": "Vincall App",
+  "scripts": {
+    "build": "webpack --config ./webpack.config.js",
+    "watch": "webpack --watch",
+    "serve": "webpack serve",
+    "test": "jest --config ./jest.config.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@comm100/app-client": "0.0.9",
+    "@comm100/framework": "^3.6.27",
+    "@comm100/styledComponents": "^3.6.14",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.16.0",
+    "@types/enzyme": "^3.10.11",
+    "@types/jest": "^27.4.0",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@webpack-cli/generators": "^2.4.1",
+    "css-loader": "^6.5.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "es6-promise-promise": "^1.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.4.7",
+    "livereload": "^0.9.3",
+    "mini-css-extract-plugin": "^2.4.5",
+    "postcss-loader": "^6.2.1",
+    "shx": "^0.3.3",
+    "terser-webpack-plugin": "^5.3.0",
+    "ts-jest": "^27.1.2",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-merge": "^5.8.0",
+    "workbox-webpack-plugin": "^6.4.1"
+  }
+}
