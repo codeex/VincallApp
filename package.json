@@ -5,8 +5,7 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "watch": "webpack --watch",
-    "serve": "webpack serve",
-    "test": "jest --config ./jest.config.json"
+    "serve": "webpack serve"
   },
   "author": "",
   "license": "ISC",
