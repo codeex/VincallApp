@@ -11,10 +11,8 @@ export type CIntegrationFormProps = {
 };
 
 const defaultValues = {
-  callStatusOnAnsweringChat: true,
-  callStatus: 'away',
-  chatStatusOnAnsweringCall: true,
-  chatStatus: 'online'
+  connected: true,
+  server: 'www.comm100.com'
 };
 
 export const CIntegrationForm = ({ children }: CIntegrationFormProps) => {

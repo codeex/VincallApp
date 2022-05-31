@@ -9,6 +9,8 @@ import { CPageMainWrapperStyled } from '@comm100/styledComponents/Page/CPageMain
 import { CPageTitleContainerStyled } from '@comm100/styledComponents/Page/CPageTitleContainerStyled';
 import { CPageTitleStyled } from '@comm100/styledComponents/Page/CPageTitleStyled';
 import { CDivider } from '@comm100/framework/Components/CDivider';
+import { CHtmlText } from '@comm100/framework/Components/CHtmlText';
+import { CPageDescStyled } from '@comm100/styledComponents/Page/CPageDescStyled';
 import { CGoBack } from './CGoBack';
 
 export type DescriptionPosition = 'tooltip' | 'belowTitle';
@@ -16,11 +18,18 @@ export type DescriptionPosition = 'tooltip' | 'belowTitle';
 export interface CPageProps {
   id?: string;
   title?: string;
+  description?: React.ReactNode;
   children?: React.ReactNode;
   onClickGoBack?: MouseEventHandler;
 }
 
-export const CPage = ({ id, title, children, onClickGoBack }: CPageProps) => {
+export const CPage = ({
+  id,
+  title,
+  children,
+  description,
+  onClickGoBack
+}: CPageProps) => {
   return (
     <CPageContainerStyled>
       <CPageContentStyled>
@@ -48,6 +57,15 @@ export const CPage = ({ id, title, children, onClickGoBack }: CPageProps) => {
                     )}
                   </CPageHeaderContentStyled>
                 </CPageTitleContainerStyled>
+                {description && (
+                  <CPageDescStyled data-tag='description'>
+                    {typeof description === 'string' ? (
+                      <CHtmlText content={description} />
+                    ) : (
+                      description
+                    )}
+                  </CPageDescStyled>
+                )}
               </CPageHeaderStyled>
             }
             {children}
