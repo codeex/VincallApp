@@ -2,6 +2,10 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { merge } = require('webpack-merge');
 const base = require('./webpack.base.config');
 
@@ -10,7 +14,7 @@ const config = merge(base, {
   entry: {
     integration: './src/pages/integration/main.tsx'
   },
-  mode: 'development',
+  mode: 'production',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: `[name]_bundle.js`
@@ -33,10 +37,12 @@ const config = merge(base, {
     liveReload: false
   },
   optimization: {
-    minimize: false
+    minimize: true
   }
 });
 
 module.exports = () => {
+  config.plugins.push(new MiniCssExtractPlugin());
+  config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
   return config;
 };
