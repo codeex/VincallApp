@@ -10,3 +10,13 @@ fse.copySync(
   `${__dirname}/README.md`,
   `${__dirname}/extension/README.md`
 );
+
+fse.copySync(
+  `${__dirname}/src/pages/topbar`,
+  `${__dirname}/extension/topbar`
+);
+
+fse.copySync(
+  `${__dirname}/src/pages/manifest.json`,
+  `${__dirname}/extension/manifest.json`
+);
