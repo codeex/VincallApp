@@ -26,18 +26,16 @@ const config = merge(base, {
       chunks: ['integration']
     })
   ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public')
-    },
-    open: true,
-    host: 'localhost',
-    port: 8012,
-    hot: false,
-    liveReload: false
-  },
   optimization: {
-    minimize: true
+    minimize: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   }
 });
 
