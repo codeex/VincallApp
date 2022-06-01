@@ -3,12 +3,11 @@ import { CIconButton } from '@comm100/framework/Components/CIconButton';
 import { CDrawer } from '@comm100/framework/Components/Drawer/CDrawer';
 import { CFormAction } from '@comm100/framework/Components/Form/CFormAction';
 import { useEventCallback } from '@comm100/framework/Helpers';
-import { CDrawerActionsStyled } from '@comm100/styledComponents/Drawer/CDrawerActionsStyled';
 import React, { MouseEvent, useState } from 'react';
 import { CPage } from '../../CPage';
 import { AgentMappingDto } from '../Dto/AgentMappingDto';
-import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
 import { CDrawerTable } from './CDrawerTable';
+import { useTableContext } from './TableContext';
 
 export type CDrawerIconButtonProps = {
   icon: string;
@@ -22,10 +21,7 @@ export const CDrawerIconButton = ({
   agentMapping
 }: CDrawerIconButtonProps) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedAgents, setSelectedAgents] = useState<{
-    indexes: number[];
-    agents: VinCallAgentDto[];
-  }>({ indexes: [], agents: [] });
+  const { saveAgentMappings } = useTableContext();
 
   const iconClickHandler = useEventCallback((event: MouseEvent) => {
     setOpen(true);
@@ -36,17 +32,8 @@ export const CDrawerIconButton = ({
   });
 
   const okHandler = useEventCallback(() => {
-    console.log('okHandler', selectedAgents);
+    saveAgentMappings();
   });
-
-  const radioSelectedHandler = useEventCallback(
-    (indexes: number[], agents: VinCallAgentDto[]) => {
-      setSelectedAgents({
-        indexes: [...indexes],
-        agents: [...agents]
-      });
-    }
-  );
 
   return (
     <>
@@ -56,10 +43,7 @@ export const CDrawerIconButton = ({
           isInDrawer
           title={`Edit Agent Mapping - ${agentMapping.agentName}`}
         >
-          <CDrawerTable
-            selectedIndexes={selectedAgents.indexes}
-            onRadioSelected={radioSelectedHandler}
-          />
+          <CDrawerTable agentMapping={agentMapping} />
           <CFormAction>
             <CButton text={'OK'} variant='contained' onClick={okHandler} />
             <CButton text={'Cancel'} onClick={closeHandler} />

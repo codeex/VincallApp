@@ -15,6 +15,7 @@ export interface IVincallDomainService<T> {
   disable(id?: EntityId): Promise<T>;
   reOrder(ids: EntityId[]): Promise<T>;
   delete(id: EntityId): Promise<void>;
+  put(data: any): Promise<any>;
 }
 
 export interface VincallDomainServiceProps {
@@ -39,6 +40,10 @@ export class VincallDomainService<T extends Entity> extends Base
 
   get(id?: EntityId) {
     return this.vincallRepo.get(id);
+  }
+
+  put(data: any) {
+    return this.vincallRepo.update(undefined, data);
   }
 
   getList(params?: QueryParam) {

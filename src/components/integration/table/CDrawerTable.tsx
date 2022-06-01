@@ -1,6 +1,5 @@
 import { CKeywordSearch } from '@comm100/framework/Components/CKeywordSearch';
-import { CIconButton } from '@comm100/framework/Components/CIconButton';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useMemo } from '@comm100/framework/Helpers';
 import noRecordsImage from '../../../images/norecordsfound.svg';
 import {
@@ -15,18 +14,16 @@ import { CTableSkeleton } from '@comm100/framework/Components/Table/CTableSkelet
 import { CTableEmptyBody } from '@comm100/framework/Components/Table/CTableEmptyBody';
 import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
 import { drawerTableApp } from './DrawerTableApp';
+import { AgentMappingDto } from '../Dto/AgentMappingDto';
 
 export type CDrawerTableProps = {
-  selectedIndexes: number[];
-  onRadioSelected: (index: number[], vincallAgent: VinCallAgentDto[]) => void;
+  agentMapping: AgentMappingDto;
 };
 
-export const CDrawerTable = ({
-  onRadioSelected,
-  selectedIndexes
-}: CDrawerTableProps) => {
+export const CDrawerTable = ({ agentMapping }: CDrawerTableProps) => {
   const {
     loading,
+    selectedIndexes,
     agents,
     searchHandler,
     loadHandler,
@@ -34,7 +31,8 @@ export const CDrawerTable = ({
   } = drawerTableApp({
     loadingState: useState<boolean>(true),
     agentsState: useState<VinCallAgentDto[]>([]),
-    onRadioSelected
+    selectedIndexesState: useState<number[]>([0]),
+    agentMapping
   });
 
   useEffect(() => {
