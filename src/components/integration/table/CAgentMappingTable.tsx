@@ -24,7 +24,6 @@ import { TableContextProvider } from './TableContext';
 
 export const CAgentMappingTable = () => {
   const {
-    statusOptions,
     totalCount,
     pagination,
     loading,
@@ -98,13 +97,6 @@ export const CAgentMappingTable = () => {
         <div />
         <div />
         <CTableFilter onFilter={searchHandler}>
-          <CTableFilterControl
-            placeholder='Status'
-            name='status'
-            component={CSelect}
-            options={statusOptions}
-            clearable
-          />
           <CTableFilterControl
             name='keywords'
             component={CKeywordSearch}
