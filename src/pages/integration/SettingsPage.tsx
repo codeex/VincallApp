@@ -81,7 +81,7 @@ export const SettingsPage = () => {
     connectStateService
       .get()
       .then(data => {
-        setConnectStatus("connected");
+        setConnectStatus(data.connected ? "connected" : "unconnected");
         setConnectData(data as ConnectState);
       })
       .catch(err => {
