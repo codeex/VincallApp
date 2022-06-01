@@ -1,0 +1,12 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.eol": "\n",
+  "editor.rulers": [80, 100],
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "Vincall"
+  ]
+}
