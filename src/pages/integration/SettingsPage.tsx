@@ -1,4 +1,5 @@
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
+import { CFormSkeleton } from "@comm100/framework/Components/Form";
 import { APPClient } from "@comm100/app-client";
 import { CFormContent } from "../../components/integration/form/CFormContent";
 import { CIntegrationForm } from "../../components/integration/form/CIntegrationForm";
@@ -7,11 +8,21 @@ import { CUnConnected } from "../../components/CUnConnected";
 import { delayOpenWindow } from "@comm100/framework/Helpers";
 import { CCircularProgressStyled } from "@comm100/styledComponents/Button/CCircularProgressStyled";
 import { CVincallConnectContainerStyled } from "../../styledComponents/CVincallConnectContainerStyled";
+import { VincallDomainService } from "../../domains/VincallDomainService";
+import { vincallDomain } from "../../config";
+import { getSiteId } from "../../helper/getSiteInfo";
+
+export type ConnectStatus = "connecting" | "connected" | "unconnected";
 
 export const SettingsPage = () => {
   const client = APPClient.init();
   const [isIntegrating, setIsIntegrating] = useState(false);
+  const [connectStatus, setConnectStatus] = useState<ConnectStatus>(
+    "connecting"
+  );
+  const [vincallServer, setVincallServer] = useState<string>("");
   const handleRef = useRef(null as any);
+
   const clickGoBackHandle = (event: MouseEvent) => {
     client.do("navigation.goto", "..");
   };
@@ -62,6 +73,20 @@ export const SettingsPage = () => {
     }
   };
   const handleLoad = () => {
+    // check connect state
+    const connectStateService = new VincallDomainService({
+      url: `${vincallDomain}/open/connectState?siteId=${getSiteId()}`
+    });
+    connectStateService
+      .get()
+      .then(data => {
+        setConnectStatus("connected");
+        setVincallServer(data.server);
+      })
+      .catch(err => {
+        setConnectStatus("unconnected");
+      });
+    //register message event
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   };
@@ -75,16 +100,22 @@ export const SettingsPage = () => {
       description="Description"
       onClickGoBack={clickGoBackHandle}
     >
-      {isIntegrating ? (
-        <CVincallConnectContainerStyled>
-          <CCircularProgressStyled size={50} />
-        </CVincallConnectContainerStyled>
-      ) : (
-        <CUnConnected onClick={clickConnectHandle} />
+      {connectStatus === "connecting" && <CFormSkeleton />}
+      {connectStatus === "unconnected" && (
+        <>
+          {isIntegrating && (
+            <CVincallConnectContainerStyled>
+              <CCircularProgressStyled size={50} />
+            </CVincallConnectContainerStyled>
+          )}
+          {!isIntegrating && <CUnConnected onClick={clickConnectHandle} />}
+        </>
       )}
-      <CIntegrationForm>
-        <CFormContent />
-      </CIntegrationForm>
+      {connectStatus === "connected" && (
+        <CIntegrationForm connect={{ connected: true, server: vincallServer }}>
+          <CFormContent />
+        </CIntegrationForm>
+      )}
     </CPage>
   );
 };

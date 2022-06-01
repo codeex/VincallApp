@@ -1,38 +1,25 @@
 import {
   CForm,
   CFormContainerContent,
-  CFormContainerWrapper,
-  CFormSkeleton
+  CFormContainerWrapper
 } from '@comm100/framework/Components/Form';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { ConnectState } from '../../../domains/bo/ConnectStateBo';
 
 export type CIntegrationFormProps = {
   children: React.ReactNode;
+  connect: ConnectState;
 };
 
-const defaultValues = {
-  connected: true,
-  server: 'www.comm100.com'
-};
-
-export const CIntegrationForm = ({ children }: CIntegrationFormProps) => {
-  const [loading, setLoading] = useState<boolean>();
-  useEffect(() => {
-    console.log('loading');
-  }, []);
-
-  return (
-    <>
-      {loading && <CFormSkeleton />}
-      {!loading && (
-        <CForm initialValues={defaultValues}>
-          <CFormContainerWrapper>
-            <CFormContainerContent>{children}</CFormContainerContent>
-          </CFormContainerWrapper>
-        </CForm>
-      )}
-    </>
-  );
-};
+export const CIntegrationForm = ({
+  children,
+  connect
+}: CIntegrationFormProps) => (
+  <CForm initialValues={connect}>
+    <CFormContainerWrapper>
+      <CFormContainerContent>{children}</CFormContainerContent>
+    </CFormContainerWrapper>
+  </CForm>
+);
 
 CIntegrationForm.displayName = 'CIntegrationForm';
