@@ -38,20 +38,21 @@ export const SettingsPage = () => {
     handleRef.current = delayOpenWindow(
       async () => {
         return [
-          "https://oauth.vincall.net/connect/authorize",
+          "https://oauthvincall.comm100dev.io/connect/authorize",
           "?client_id=vincall",
           "&response_type=code",
-          "&scope=vincall",
+          "&scope=api",
           `&redirect_uri=${encodeURIComponent(
             `https://apivincall.comm100dev.io/open/login/callback?redirect_uri=${encodeURIComponent(
               callbackHref
-            )}&siteId=${10000}&domain=${"https://oauthvincall.comm100dev.io"}`
+            )}&siteId=${getSiteId() ||
+              10000}&domain=${"https://oauthvincall.comm100dev.io"}`
           )}`
         ].join("");
       },
       "connect",
       {
-        width: 700,
+        width: 480,
         height: 600,
         top: 100,
         left: 100
