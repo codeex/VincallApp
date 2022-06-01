@@ -63,7 +63,7 @@ export const SettingsPage = () => {
     const { code } = event.data;
     const pathname = event.source.location.pathname;
 
-    if (pathname.toLowerCase().indexOf("vincallCallback.html") >= 0 && code) {
+    if (pathname.toLowerCase().indexOf("vincallcallback.html") >= 0 && code) {
       setIsIntegrating(true);
 
       handleRef.current.then(h => h.close());
