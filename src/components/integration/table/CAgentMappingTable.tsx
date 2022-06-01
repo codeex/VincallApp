@@ -62,14 +62,14 @@ export const CAgentMappingTable = () => {
         }
       },
       {
-        id: 'vincallAgentName',
+        id: 'vincallAgentId',
         isAllowSort: false,
-        headerText: 'Vincall Agent',
+        headerText: 'Vincall Agent ID',
         content: {
-          name: 'vincallAgentName',
+          name: 'vincallAgentId',
           isIcon: false,
           cellComponent: ({ row }) => (
-            <CTableBodyCellText text={row.vincallAgentName || ''} />
+            <CTableBodyCellText text={row.vincallAgentId || ''} />
           )
         }
       }

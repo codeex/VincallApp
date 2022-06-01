@@ -9,8 +9,8 @@ import { delayOpenWindow } from "@comm100/framework/Helpers";
 import { CCircularProgressStyled } from "@comm100/styledComponents/Button/CCircularProgressStyled";
 import { CVincallConnectContainerStyled } from "../../styledComponents/CVincallConnectContainerStyled";
 import { VincallDomainService } from "../../domains/VincallDomainService";
-import { vincallDomain } from "../../config";
 import { getSiteId } from "../../helper/getSiteInfo";
+import { ConnectState } from "../../domains/bo/ConnectStateBo";
 
 export type ConnectStatus = "connecting" | "connected" | "unconnected";
 
@@ -20,7 +20,7 @@ export const SettingsPage = () => {
   const [connectStatus, setConnectStatus] = useState<ConnectStatus>(
     "connecting"
   );
-  const [vincallServer, setVincallServer] = useState<string>("");
+  const [connectData, setConnectData] = useState<ConnectState>();
   const handleRef = useRef(null as any);
 
   const clickGoBackHandle = (event: MouseEvent) => {
@@ -76,13 +76,13 @@ export const SettingsPage = () => {
   const handleLoad = () => {
     // check connect state
     const connectStateService = new VincallDomainService({
-      url: `${vincallDomain}/open/connectState?siteId=${getSiteId()}`
+      url: `/open/connectState?siteId=${getSiteId()}`
     });
     connectStateService
       .get()
       .then(data => {
         setConnectStatus("connected");
-        setVincallServer(data.server);
+        setConnectData(data as ConnectState);
       })
       .catch(err => {
         setConnectStatus("unconnected");
@@ -94,6 +94,7 @@ export const SettingsPage = () => {
   useEffect(() => {
     return handleLoad();
   }, []);
+
   return (
     <CPage
       id="settingsPage"
@@ -112,11 +113,12 @@ export const SettingsPage = () => {
           {!isIntegrating && <CUnConnected onClick={clickConnectHandle} />}
         </>
       )}
-      {connectStatus === "connected" && (
-        <CIntegrationForm connect={{ connected: true, server: vincallServer }}>
-          <CFormContent />
-        </CIntegrationForm>
-      )}
+      {connectStatus === "connected" &&
+        connectData && (
+          <CIntegrationForm connect={connectData}>
+            <CFormContent />
+          </CIntegrationForm>
+        )}
     </CPage>
   );
 };
