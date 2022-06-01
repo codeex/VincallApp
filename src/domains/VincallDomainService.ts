@@ -8,6 +8,7 @@ import { Base } from '@comm100/framework/Domain/Base';
 import { Entity } from '@comm100/framework/Domain/Bo/Entity';
 
 export interface IVincallDomainService<T> {
+  get(id?: EntityId): Promise<T>;
   getList(params?: QueryParam): Promise<T[]>;
   enable(id?: EntityId): Promise<T>;
   disable(id?: EntityId): Promise<T>;
@@ -33,6 +34,10 @@ export class VincallDomainService<T extends Entity> extends Base
       token
     });
     this.vincallRepo.getUrl = this.getUrl.bind(this);
+  }
+
+  get(id?: EntityId) {
+    return this.vincallRepo.get(id);
   }
 
   getList(params?: QueryParam) {
