@@ -6,6 +6,7 @@ import { CSelectOption } from '@comm100/framework/Components/CSelect/CSelect';
 import { TableContextValue } from './TableContext';
 import { VincallDomainService } from '../../../domains/VincallDomainService';
 import { getSiteId } from '../../../helper/getSiteInfo';
+import { AgentMappingBo } from '../../../domains/bo/AgentMappingBo';
 
 const testData: AgentMappingDto[] = [
   {
@@ -46,11 +47,12 @@ export const agentMappingTableApp = ({
     console.log('search');
   };
   const loadHandler = async () => {
+    const agentMappingService = new VincallDomainService({
+      url: `/open/agentMappings?siteId=${getSiteId()}`
+    });
+    const agentMappingsData = ((await agentMappingService.getList()) ||
+      []) as AgentMappingBo[];
     if (process.env.NODE_ENV === 'production') {
-      const agentMappingService = new VincallDomainService({
-        url: `/open/agentMappings?siteId=${getSiteId()}`
-      });
-      const agentMappings = await agentMappingService.getList();
       const agents = await client.request('/api/Global/agents', {
         params: {
           pageIndex: pagination.page.toString(),
@@ -59,10 +61,16 @@ export const agentMappingTableApp = ({
       } as any);
       if (agents.data) {
         setAgentMappings(
-          agents.data.agents.map((agent) => ({
-            agentId: agent.id,
-            agentName: agent.displayName
-          }))
+          agents.data.agents.map((agent) => {
+            const mappingAgent = agentMappingsData.find(
+              (item) => item.comm100AgentId === agent.id
+            );
+            return {
+              agentId: agent.id,
+              agentName: agent.displayName,
+              vincallAgentId: mappingAgent?.vincallAgentId
+            };
+          })
         );
         setTotalCount(agents.data.total);
       }

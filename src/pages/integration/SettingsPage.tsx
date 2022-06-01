@@ -10,6 +10,7 @@ import { CCircularProgressStyled } from '@comm100/styledComponents/Button/CCircu
 import { CVincallConnectContainerStyled } from '../../styledComponents/CVincallConnectContainerStyled';
 import { VincallDomainService } from '../../domains/VincallDomainService';
 import { getSiteId } from '../../helper/getSiteInfo';
+import { ConnectState } from '../../domains/bo/ConnectStateBo';
 
 export type ConnectStatus = 'connecting' | 'connected' | 'unconnected';
 
@@ -19,7 +20,7 @@ export const SettingsPage = () => {
   const [connectStatus, setConnectStatus] = useState<ConnectStatus>(
     'connecting'
   );
-  const [vincallServer, setVincallServer] = useState<string>('');
+  const [connectData, setConnectData] = useState<ConnectState>();
   const handleRef = useRef(null as any);
 
   const clickGoBackHandle = (event: MouseEvent) => {
@@ -80,7 +81,7 @@ export const SettingsPage = () => {
       .get()
       .then((data) => {
         setConnectStatus('connected');
-        setVincallServer(data.server);
+        setConnectData(data as ConnectState);
       })
       .catch((err) => {
         setConnectStatus('unconnected');
@@ -92,6 +93,7 @@ export const SettingsPage = () => {
   useEffect(() => {
     return handleLoad();
   }, []);
+
   return (
     <CPage
       id='settingsPage'
@@ -110,8 +112,8 @@ export const SettingsPage = () => {
           {!isIntegrating && <CUnConnected onClick={clickConnectHandle} />}
         </>
       )}
-      {connectStatus === 'connected' && (
-        <CIntegrationForm connect={{ connected: true, server: vincallServer }}>
+      {connectStatus === 'connected' && connectData && (
+        <CIntegrationForm connect={connectData}>
           <CFormContent />
         </CIntegrationForm>
       )}
