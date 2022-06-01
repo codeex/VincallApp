@@ -35,7 +35,7 @@ export const CAgentMappingTable = () => {
     loadingState: useState<boolean>(true),
     agentMappingsState: useState<AgentMappingDto[]>([]),
     paginationState: useState<Pagination>({
-      page: 0,
+      page: 1,
       pageSize: 10
     }),
     totalCountState: useState<number>(0)

@@ -46,7 +46,12 @@ export const agentMappingTableApp = ({
     console.log('click unmap');
   };
   const loadHandler = async () => {
-    const agents = await client.request('/api/Global/agents');
+    const agents = await client.request('/api/Global/agents', {
+      params: {
+        pageIndex: pagination.page.toString(),
+        pageSize: pagination.pageSize.toString()
+      }
+    } as any);
     if (agents.data) {
       setAgentMappings(
         agents.data.agents.map((agent) => ({

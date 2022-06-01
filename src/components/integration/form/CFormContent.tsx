@@ -7,12 +7,11 @@ import {
 } from '@comm100/framework/Components/Form';
 import { CInput } from '@comm100/framework/Components/CInput';
 import { CAgentMappingTable } from '../table/CAgentMappingTable';
-import { CDrawerTable } from '../table/CDrawerTable';
 
 export const CFormContent = () => {
   return (
     <>
-      <CFormControlGroupContainer title='Connect to VinCall Server'>
+      <CFormControlGroupContainer title='Connect to Vincall Server'>
         <CFormControlGroup>
           <CFormControlGroupItemContainer xs={6}>
             <CFormControl
