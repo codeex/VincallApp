@@ -17,13 +17,16 @@ import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
 import { drawerTableApp } from './DrawerTableApp';
 
 export type CDrawerTableProps = {
-  onRadioSelected: (index: number, vincallAgent: VinCallAgentDto) => void;
+  selectedIndexes: number[];
+  onRadioSelected: (index: number[], vincallAgent: VinCallAgentDto[]) => void;
 };
 
-export const CDrawerTable = ({ onRadioSelected }: CDrawerTableProps) => {
+export const CDrawerTable = ({
+  onRadioSelected,
+  selectedIndexes
+}: CDrawerTableProps) => {
   const {
     loading,
-    selectedIndexes,
     agents,
     searchHandler,
     loadHandler,
@@ -31,7 +34,6 @@ export const CDrawerTable = ({ onRadioSelected }: CDrawerTableProps) => {
   } = drawerTableApp({
     loadingState: useState<boolean>(true),
     agentsState: useState<VinCallAgentDto[]>([]),
-    selectedIndexesStatus: useState<number[]>([]),
     onRadioSelected
   });
 
@@ -65,7 +67,6 @@ export const CDrawerTable = ({ onRadioSelected }: CDrawerTableProps) => {
       }
     ];
   }, []);
-
   return (
     <>
       <CTableAction>

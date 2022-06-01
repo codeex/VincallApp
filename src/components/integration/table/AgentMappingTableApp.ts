@@ -3,6 +3,7 @@ import { UIState } from '@comm100/framework/Helpers';
 import { APPClient } from '@comm100/app-client';
 import { AgentMappingDto } from '../Dto/AgentMappingDto';
 import { CSelectOption } from '@comm100/framework/Components/CSelect/CSelect';
+import { TableContextValue } from './TableContext';
 
 const testData: AgentMappingDto[] = [
   {
@@ -25,8 +26,8 @@ export type AgentMappingTableApp = {
   totalCount: number;
   agentMappings: AgentMappingDto[];
   pagination: Pagination;
+  tableContextValue: TableContextValue;
   searchHandler: (values: Values) => void;
-  unmapHandler: (agentMapping: AgentMappingDto) => void;
   paginationHandler: (pagination: Pagination) => void;
   loadHandler: () => void;
 };
@@ -42,25 +43,28 @@ export const agentMappingTableApp = ({
   const searchHandler = (values: Values) => {
     console.log('search');
   };
-  const unmapHandler = (agentMapping: AgentMappingDto) => {
-    console.log('click unmap');
-  };
   const loadHandler = async () => {
-    const agents = await client.request('/api/Global/agents', {
-      params: {
-        pageIndex: pagination.page.toString(),
-        pageSize: pagination.pageSize.toString()
+    if (process.env.NODE_ENV === 'production') {
+      const agents = await client.request('/api/Global/agents', {
+        params: {
+          pageIndex: pagination.page.toString(),
+          pageSize: pagination.pageSize.toString()
+        }
+      } as any);
+      if (agents.data) {
+        setAgentMappings(
+          agents.data.agents.map((agent) => ({
+            agentId: agent.id,
+            agentName: agent.displayName
+          }))
+        );
+        setTotalCount(agents.data.total);
       }
-    } as any);
-    if (agents.data) {
-      setAgentMappings(
-        agents.data.agents.map((agent) => ({
-          agentId: agent.id,
-          agentName: agent.displayName
-        }))
-      );
-      setTotalCount(agents.data.total);
+    } else {
+      setAgentMappings(testData);
+      setTotalCount(100);
     }
+
     setLoading(false);
   };
 
@@ -83,14 +87,21 @@ export const agentMappingTableApp = ({
     }
   ];
 
+  const brokeMapping = (agent: AgentMappingDto) => {
+    console.log('todo: brokeMapping');
+  };
+
   return {
     statusOptions,
     totalCount,
     pagination,
     loading,
     agentMappings,
+    tableContextValue: {
+      reloadData: loadHandler,
+      brokeMapping
+    },
     searchHandler,
-    unmapHandler,
     loadHandler,
     paginationHandler
   };
