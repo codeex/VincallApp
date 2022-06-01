@@ -1,4 +1,5 @@
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
+import { APPClient } from "@comm100/app-client";
 import { CFormContent } from "../../components/integration/form/CFormContent";
 import { CIntegrationForm } from "../../components/integration/form/CIntegrationForm";
 import { CPage } from "../../components/CPage";
@@ -8,10 +9,11 @@ import { CCircularProgressStyled } from "@comm100/styledComponents/Button/CCircu
 import { CVincallConnectContainerStyled } from "../../styledComponents/CVincallConnectContainerStyled";
 
 export const SettingsPage = () => {
+  const client = APPClient.init();
   const [isIntegrating, setIsIntegrating] = useState(false);
   const handleRef = useRef(null as any);
   const clickGoBackHandle = (event: MouseEvent) => {
-    console.log("clickGoBackHandle");
+    client.do("navigation.goto", "..");
   };
   const clickConnectHandle = (event: MouseEvent) => {
     handleRef.current = delayOpenWindow(

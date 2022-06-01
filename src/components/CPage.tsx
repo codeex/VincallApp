@@ -20,6 +20,7 @@ export interface CPageProps {
   title?: string;
   description?: React.ReactNode;
   children?: React.ReactNode;
+  isInDrawer?: boolean;
   onClickGoBack?: MouseEventHandler;
 }
 
@@ -28,10 +29,11 @@ export const CPage = ({
   title,
   children,
   description,
+  isInDrawer,
   onClickGoBack
 }: CPageProps) => {
   return (
-    <CPageContainerStyled>
+    <CPageContainerStyled isInDrawer={isInDrawer}>
       <CPageContentStyled>
         <CPageMainWrapperStyled>
           <CPageMainContainerStyled id={id}>
