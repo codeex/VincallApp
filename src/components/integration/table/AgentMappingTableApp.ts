@@ -7,6 +7,7 @@ import { TableContextValue } from './TableContext';
 import { VincallDomainService } from '../../../domains/VincallDomainService';
 import { getSiteId } from '../../../helper/getSiteInfo';
 import { AgentMappingBo } from '../../../domains/bo/AgentMappingBo';
+import { useRef } from 'react';
 
 const testData: AgentMappingDto[] = [
   {
@@ -42,6 +43,7 @@ export const agentMappingTableApp = ({
   totalCountState: [totalCount, setTotalCount]
 }: AgentMappingTableAppProps): AgentMappingTableApp => {
   const client = APPClient.init();
+  const agentMappingsRef = useRef<AgentMappingBo[]>();
 
   const searchHandler = (values: Values) => {
     console.log('search');
@@ -50,7 +52,7 @@ export const agentMappingTableApp = ({
     const agentMappingService = new VincallDomainService({
       url: `/open/agentMappings?siteId=${getSiteId()}`
     });
-    const agentMappingsData = ((await agentMappingService.getList()) ||
+    agentMappingsRef.current = ((await agentMappingService.getList()) ||
       []) as AgentMappingBo[];
     if (process.env.NODE_ENV === 'production') {
       const agents = await client.request('/api/Global/agents', {
@@ -62,7 +64,7 @@ export const agentMappingTableApp = ({
       if (agents.data) {
         setAgentMappings(
           agents.data.agents.map((agent) => {
-            const mappingAgent = agentMappingsData.find(
+            const mappingAgent = agentMappingsRef.current?.find(
               (item) => item.comm100AgentId === agent.id
             );
             return {

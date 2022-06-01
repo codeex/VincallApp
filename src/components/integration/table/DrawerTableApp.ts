@@ -1,5 +1,6 @@
 import { Values } from '@comm100/framework/Components/Table';
 import { UIState, useEventCallback } from '@comm100/framework/Helpers';
+import { VincallDomainService } from '../../../domains/VincallDomainService';
 import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
 
 const testData: VinCallAgentDto[] = [
@@ -34,7 +35,11 @@ export const drawerTableApp = ({
     console.log('search');
   });
   const loadHandler = useEventCallback(async () => {
-    setAgents(testData);
+    const vincallAgentService = new VincallDomainService({
+      url: `/agents`
+    });
+    const vincallAgents = await vincallAgentService.getList();
+    setAgents(vincallAgents as VinCallAgentDto[]);
     setLoading(false);
   });
 
