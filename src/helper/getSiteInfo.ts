@@ -1,9 +1,16 @@
 import Query from 'query-string';
+import { defaultSiteId } from '../config';
 
 export const getQueryParams = (): { [key: string]: string } =>
   Query.parse(location.search.toLowerCase());
 
-export const getSiteId = (): string => getQueryParams()['siteid'];
+export const getSiteId = (): string => {
+  if (process.env.NODE_ENV === 'production') {
+    return getQueryParams()['siteid'];
+  } else {
+    return defaultSiteId;
+  }
+};
 
 export const getDomain = (): string => getQueryParams()['domain'];
 

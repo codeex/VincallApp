@@ -6,7 +6,6 @@ import { CSelectOption } from '@comm100/framework/Components/CSelect/CSelect';
 import { TableContextValue } from './TableContext';
 import { VincallDomainService } from '../../../domains/VincallDomainService';
 import { getSiteId } from '../../../helper/getSiteInfo';
-import { vincallDomain } from '../../../config';
 
 const testData: AgentMappingDto[] = [
   {
@@ -49,7 +48,7 @@ export const agentMappingTableApp = ({
   const loadHandler = async () => {
     if (process.env.NODE_ENV === 'production') {
       const agentMappingService = new VincallDomainService({
-        url: `${vincallDomain}/open/agentMappings?siteId=${getSiteId()}`
+        url: `/open/agentMappings?siteId=${getSiteId()}`
       });
       const agentMappings = await agentMappingService.getList();
       const agents = await client.request('/api/Global/agents', {

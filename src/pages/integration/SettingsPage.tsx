@@ -9,7 +9,6 @@ import { delayOpenWindow } from '@comm100/framework/Helpers';
 import { CCircularProgressStyled } from '@comm100/styledComponents/Button/CCircularProgressStyled';
 import { CVincallConnectContainerStyled } from '../../styledComponents/CVincallConnectContainerStyled';
 import { VincallDomainService } from '../../domains/VincallDomainService';
-import { vincallDomain } from '../../config';
 import { getSiteId } from '../../helper/getSiteInfo';
 
 export type ConnectStatus = 'connecting' | 'connected' | 'unconnected';
@@ -65,7 +64,7 @@ export const SettingsPage = () => {
   const handleLoad = () => {
     // check connect state
     const connectStateService = new VincallDomainService({
-      url: `${vincallDomain}/open/connectState?siteId=${getSiteId()}`
+      url: `/open/connectState?siteId=${getSiteId()}`
     });
     connectStateService
       .get()
