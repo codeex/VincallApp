@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const base = require('./webpack.base.config');
+const proxyRules = require('./proxyRules');
 
 // @ts-ignore
 const config = merge(base, {
@@ -30,10 +31,8 @@ const config = merge(base, {
     host: 'localhost',
     port: 8012,
     hot: false,
+    proxy: proxyRules,
     liveReload: false
-  },
-  optimization: {
-    minimize: false
   }
 });
 
