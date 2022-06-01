@@ -6,26 +6,34 @@ import {
   CFormControlGroupItemContainer
 } from '@comm100/framework/Components/Form';
 import { CInput } from '@comm100/framework/Components/CInput';
+import { CAgentMappingTable } from '../table/CAgentMappingTable';
+import { CDrawerTable } from '../table/CDrawerTable';
 
 export const CFormContent = () => {
   return (
-    <CFormControlGroupContainer title='Connect to VinCall Server'>
-      <CFormControlGroup>
-        <CFormControlGroupItemContainer
-          xs={12}
-          data-formfield='callStatusOnAnsweringChat'
-        >
-          <CFormControl
-            name='server'
-            label='Connected Server'
-            labelShrink
-            component={CInput}
-            maxLength={2048}
-            disabled
-          />
-        </CFormControlGroupItemContainer>
-      </CFormControlGroup>
-    </CFormControlGroupContainer>
+    <>
+      <CFormControlGroupContainer title='Connect to VinCall Server'>
+        <CFormControlGroup>
+          <CFormControlGroupItemContainer xs={6}>
+            <CFormControl
+              name='server'
+              label='Connected Server'
+              labelShrink
+              component={CInput}
+              maxLength={2048}
+              disabled
+            />
+          </CFormControlGroupItemContainer>
+        </CFormControlGroup>
+      </CFormControlGroupContainer>
+      <CFormControlGroupContainer title='Agents Mapping'>
+        <CFormControlGroup>
+          <CFormControlGroupItemContainer xs={12}>
+            <CAgentMappingTable />
+          </CFormControlGroupItemContainer>
+        </CFormControlGroup>
+      </CFormControlGroupContainer>
+    </>
   );
 };
 CFormContent.displayName = 'CFormContent';
