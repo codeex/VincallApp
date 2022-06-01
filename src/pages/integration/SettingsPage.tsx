@@ -68,9 +68,19 @@ export const SettingsPage = () => {
 
       handleRef.current.then(h => h.close());
 
-      //TODO: get data
-
-      setIsIntegrating(false);
+      const connectStateService = new VincallDomainService({
+        url: `/open/connectState?siteId=${getSiteId()}`
+      });
+      connectStateService
+        .get()
+        .then(data => {
+          setConnectStatus(data.connected ? "connected" : "unconnected");
+          setConnectData(data as ConnectState);
+          setIsIntegrating(false);
+        })
+        .catch(err => {
+          setConnectStatus("unconnected");
+        });
     }
   };
   const handleLoad = () => {
