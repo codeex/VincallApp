@@ -16,6 +16,14 @@ export const SettingsPage = () => {
     client.do("navigation.goto", "..");
   };
   const clickConnectHandle = (event: MouseEvent) => {
+    const currentHref = window.location.href.substring(
+      0,
+      window.location.href.indexOf("?")
+    );
+    const callbackHref = currentHref.replace(
+      /\/([^\/]*)\.html/gi,
+      "/vincallCallback.html"
+    );
     handleRef.current = delayOpenWindow(
       async () => {
         return [
@@ -24,14 +32,16 @@ export const SettingsPage = () => {
           "&response_type=code",
           "&scope=vincall",
           `&redirect_uri=${encodeURIComponent(
-            "https://apivincall.comm100dev.io/open/login/callback?redirect_uri=https://voipdash.comm100dev.io/vincallback.html"
+            `https://apivincall.comm100dev.io/open/login/callback?redirect_uri=${encodeURIComponent(
+              callbackHref
+            )}&siteId=${10000}&domain=${"https://oauthvincall.comm100dev.io"}`
           )}`
         ].join("");
       },
       "connect",
       {
-        width: 600,
-        height: 500,
+        width: 700,
+        height: 600,
         top: 100,
         left: 100
       }
