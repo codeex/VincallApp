@@ -23,7 +23,7 @@ const removeCookieSecure = (proxyRes, req, res) => {
 };
 module.exports = [
   {
-    path: '/agents',
+    path: '/api/agents',
     target: targetDomain,
     secure: false,
     changeOrigin: true,

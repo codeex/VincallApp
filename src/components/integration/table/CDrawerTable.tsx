@@ -56,12 +56,12 @@ export const CDrawerTable = ({
       {
         id: 'displayName',
         isAllowSort: false,
-        headerText: 'Vincall Agent',
+        headerText: 'Vincall Account',
         content: {
           name: 'displayName',
           isIcon: false,
           cellComponent: ({ row }) => (
-            <CTableBodyCellText text={row.displayName || ''} />
+            <CTableBodyCellText text={row.userAccount || ''} />
           )
         }
       }

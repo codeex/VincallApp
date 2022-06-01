@@ -6,7 +6,7 @@ import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
 const testData: VinCallAgentDto[] = [
   {
     id: 'test',
-    displayName: 'agent'
+    userAccount: 'agent'
   }
 ];
 export type DrawerTableAppProps = {
@@ -31,13 +31,14 @@ export const drawerTableApp = ({
   agentsState: [agents, setAgents],
   onRadioSelected
 }: DrawerTableAppProps): DrawerTableApp => {
-  const searchHandler = useEventCallback((values: Values) => {
-    console.log('search');
+  const vincallAgentService = new VincallDomainService({
+    url: `/api/agents`
+  });
+  const searchHandler = useEventCallback(async (values: Values) => {
+    const vincallAgents = await vincallAgentService.getList(values);
+    setAgents(vincallAgents as VinCallAgentDto[]);
   });
   const loadHandler = useEventCallback(async () => {
-    const vincallAgentService = new VincallDomainService({
-      url: `/agents`
-    });
     const vincallAgents = await vincallAgentService.getList();
     setAgents(vincallAgents as VinCallAgentDto[]);
     setLoading(false);
