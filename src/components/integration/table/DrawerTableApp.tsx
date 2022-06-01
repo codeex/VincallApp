@@ -1,5 +1,5 @@
 import { Values } from '@comm100/framework/Components/Table';
-import { UIState } from '@comm100/framework/Helpers';
+import { UIState, useEventCallback } from '@comm100/framework/Helpers';
 import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
 
 const testData: VinCallAgentDto[] = [
@@ -11,14 +11,12 @@ const testData: VinCallAgentDto[] = [
 export type DrawerTableAppProps = {
   loadingState: UIState<boolean>;
   agentsState: UIState<VinCallAgentDto[]>;
-  selectedIndexesStatus: UIState<number[]>;
-  onRadioSelected: (index: number, vincallAgent: VinCallAgentDto) => void;
+  onRadioSelected: (index: number[], vincallAgent: VinCallAgentDto[]) => void;
 };
 
 export type DrawerTableApp = {
   loading: boolean;
   agents: VinCallAgentDto[];
-  selectedIndexes: number[];
   searchHandler: (values: Values) => void;
   loadHandler: () => void;
   radioSelectedHandler: (
@@ -30,27 +28,23 @@ export type DrawerTableApp = {
 export const drawerTableApp = ({
   loadingState: [loading, setLoading],
   agentsState: [agents, setAgents],
-  selectedIndexesStatus: [selectedIndexes, setSelectedIndexes],
   onRadioSelected
 }: DrawerTableAppProps): DrawerTableApp => {
-  const searchHandler = (values: Values) => {
+  const searchHandler = useEventCallback((values: Values) => {
     console.log('search');
-  };
-  const loadHandler = async () => {
+  });
+  const loadHandler = useEventCallback(async () => {
     setAgents(testData);
     setLoading(false);
-  };
+  });
 
-  const radioSelectedHandler = (
-    selected: number[],
-    rows?: VinCallAgentDto[]
-  ) => {
-    onRadioSelected(selected[0], rows![0]);
-    setSelectedIndexes(selected);
-  };
+  const radioSelectedHandler = useEventCallback(
+    (selected: number[], rows?: VinCallAgentDto[]) => {
+      onRadioSelected(selected, rows!);
+    }
+  );
 
   return {
-    selectedIndexes,
     loading,
     agents,
     searchHandler,

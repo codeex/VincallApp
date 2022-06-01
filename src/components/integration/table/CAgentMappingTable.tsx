@@ -19,6 +19,8 @@ import { CTableSkeleton } from '@comm100/framework/Components/Table/CTableSkelet
 import { CTableEmptyBody } from '@comm100/framework/Components/Table/CTableEmptyBody';
 import { CSelect } from '@comm100/framework/Components/CSelect';
 import { CDrawerIconButton } from './CDrawerIconButton';
+import { CBrokeMappingIconButton } from './CBrokeMappingIconButton';
+import { TableContextProvider } from './TableContext';
 
 export const CAgentMappingTable = () => {
   const {
@@ -27,8 +29,8 @@ export const CAgentMappingTable = () => {
     pagination,
     loading,
     agentMappings,
+    tableContextValue,
     searchHandler,
-    unmapHandler,
     loadHandler,
     paginationHandler
   } = agentMappingTableApp({
@@ -85,22 +87,13 @@ export const CAgentMappingTable = () => {
       },
       {
         operationComponent: ({ row }) => {
-          return (
-            <CIconButton
-              icon='disconnect'
-              title='Unmap'
-              onClick={() => {
-                unmapHandler(row);
-              }}
-              disabled={!row.vincallAgentId}
-            />
-          );
+          return <CBrokeMappingIconButton agentMapping={row} />;
         }
       }
     ];
   }, []);
   return (
-    <>
+    <TableContextProvider value={tableContextValue}>
       <CTableAction>
         <div />
         <div />
@@ -137,6 +130,6 @@ export const CAgentMappingTable = () => {
           onPaginationChange={paginationHandler}
         />
       )}
-    </>
+    </TableContextProvider>
   );
 };

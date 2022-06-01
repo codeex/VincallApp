@@ -1,5 +1,4 @@
 import React, { MouseEventHandler } from 'react';
-import { Helmet } from 'react-helmet';
 import { CPageContainerStyled } from '@comm100/styledComponents/Page/CPageContainerStyled';
 import { CPageContentStyled } from '@comm100/styledComponents/Page/CPageContentStyled';
 import { CPageHeaderContentStyled } from '@comm100/styledComponents/Page/CPageHeaderContentStyled';
@@ -37,11 +36,6 @@ export const CPage = ({
       <CPageContentStyled>
         <CPageMainWrapperStyled>
           <CPageMainContainerStyled id={id}>
-            {title && typeof title === 'string' && (
-              <Helmet>
-                <title>{title}</title>
-              </Helmet>
-            )}
             {
               <CPageHeaderStyled>
                 <CPageTitleContainerStyled>
