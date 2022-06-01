@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 const { merge } = require("webpack-merge");
 const base = require("./webpack.base.config");
 
@@ -25,14 +24,6 @@ const config = merge(base, {
       filename: "integration.html",
       template: "./src/pages/integration/index.html",
       chunks: ["integration"]
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "assets"),
-          to: path.resolve(__dirname, "dist")
-        }
-      ]
     })
   ],
   optimization: {

@@ -3,7 +3,7 @@
   "version": "0.0.9",
   "description": "Vincall App",
   "scripts": {
-    "build": "webpack --config ./webpack.prod.config.js",
+    "build": "webpack --config ./webpack.prod.config.js && node copy.js",
     "watch": "webpack --watch",
     "serve": "webpack serve"
   },
@@ -39,6 +39,7 @@
     "jest": "^27.4.7",
     "livereload": "^0.9.3",
     "mini-css-extract-plugin": "^2.4.5",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-loader": "^6.2.1",
     "shx": "^0.3.3",
     "style-loader": "^3.3.1",
@@ -52,7 +53,6 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.6.0",
     "webpack-merge": "^5.8.0",
-    "workbox-webpack-plugin": "^6.4.1",
-    "optimize-css-assets-webpack-plugin": "^6.0.1"
+    "workbox-webpack-plugin": "^6.4.1"
   }
 }
