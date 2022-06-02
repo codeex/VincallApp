@@ -2,7 +2,6 @@ import { Pagination, Values } from '@comm100/framework/Components/Table';
 import { UIState } from '@comm100/framework/Helpers';
 import { APPClient } from '@comm100/app-client';
 import { AgentMappingDto } from '../Dto/AgentMappingDto';
-import { CSelectOption } from '@comm100/framework/Components/CSelect/CSelect';
 import { TableContextValue } from './TableContext';
 import { VincallDomainService } from '../../../domains/VincallDomainService';
 import { getSiteId } from '../../../helper/getSiteInfo';
@@ -15,6 +14,14 @@ const testData: AgentMappingDto[] = [
     agentId: 'agent1',
     agentName: 'agent1',
     vincallAgentId: 'vincall',
+    email: '',
+    partnerId: '10000',
+    siteId: '1000'
+  },
+  {
+    agentId: 'agent2',
+    agentName: 'agent2',
+    vincallAgentId: '',
     email: '',
     partnerId: '10000',
     siteId: '1000'
@@ -51,6 +58,18 @@ export const agentMappingTableApp = ({
     url: `/open/agentMappings?siteId=${getSiteId()}`
   });
 
+  const brokeMapping = async (agent: AgentMappingDto) => {
+    const mappedAgents = mappedAgentsRef.current || [];
+    mappedAgentsRef.current = mappedAgents.filter(
+      (item) => item.comm100AgentId !== agent.agentId
+    );
+    await agentMappingService.put(mappedAgentsRef.current);
+    client.do('controlpanel.message.snack', {
+      message: `Agent unmapping successfully.`
+    });
+    await loadHandler();
+  };
+
   const saveAgentMappings = async () => {
     if (!currentMappedAgentRef.current) return;
     const mappedAgents = mappedAgentsRef.current || [];
@@ -73,6 +92,9 @@ export const agentMappingTableApp = ({
       });
     }
     await agentMappingService.put(mappedAgentsRef.current);
+    client.do('controlpanel.message.snack', {
+      message: `Agent mapping successfully.`
+    });
     await loadHandler();
   };
 
@@ -80,12 +102,13 @@ export const agentMappingTableApp = ({
     agent: AgentMappingDto,
     vincallAgent: VinCallAgentDto
   ) => {
+    console.log('radioSelected', agent, vincallAgent);
     currentMappedAgentRef.current = {
       comm100AgentId: agent.agentId,
       email: agent.email,
-      partnerId: agent.partnerId,
-      siteId: agent.siteId,
-      vincallAgentId: vincallAgent.id
+      partnerId: agent.partnerId.toString(),
+      siteId: agent.siteId.toString(),
+      vincallAgentId: vincallAgent.id.toString()
     };
   };
 
@@ -139,10 +162,6 @@ export const agentMappingTableApp = ({
   const paginationHandler = async (pageInfo: Pagination) => {
     await loadAgents(pageInfo);
     setPagination(pageInfo);
-  };
-
-  const brokeMapping = (agent: AgentMappingDto) => {
-    console.log('todo: brokeMapping');
   };
 
   return {
