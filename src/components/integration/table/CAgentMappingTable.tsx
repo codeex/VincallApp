@@ -17,10 +17,10 @@ import { CTableFilter } from '@comm100/framework/Components/Table/CTableFilter';
 import { CTableFilterControl } from '@comm100/framework/Components/Table/CTableFilterControl';
 import { CTableSkeleton } from '@comm100/framework/Components/Table/CTableSkeleton';
 import { CTableEmptyBody } from '@comm100/framework/Components/Table/CTableEmptyBody';
-import { CSelect } from '@comm100/framework/Components/CSelect';
 import { CDrawerIconButton } from './CDrawerIconButton';
 import { CBrokeMappingIconButton } from './CBrokeMappingIconButton';
 import { TableContextProvider } from './TableContext';
+import { Values } from '@comm100/framework/Components/Table/CTableFilterContext';
 
 export const CAgentMappingTable = () => {
   const {
@@ -39,6 +39,7 @@ export const CAgentMappingTable = () => {
       page: 1,
       pageSize: 10
     }),
+    filterState: useState<Values>({}),
     totalCountState: useState<number>(0)
   });
 
