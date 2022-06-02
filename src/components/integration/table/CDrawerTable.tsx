@@ -85,7 +85,7 @@ export const CDrawerTable = ({ agentMapping }: CDrawerTableProps) => {
           <CTableFilterControl
             name='keywords'
             component={CKeywordSearch}
-            placeholder='Search app'
+            placeholder='Search Vincall Agent'
           />
         </CTableFilter>
       </CTableAction>
