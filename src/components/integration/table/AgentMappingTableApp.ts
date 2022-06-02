@@ -102,7 +102,6 @@ export const agentMappingTableApp = ({
     agent: AgentMappingDto,
     vincallAgent: VinCallAgentDto
   ) => {
-    console.log('radioSelected', agent, vincallAgent);
     currentMappedAgentRef.current = {
       comm100AgentId: agent.agentId,
       email: agent.email,
