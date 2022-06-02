@@ -22,7 +22,7 @@ export const CDisconnectButton = ({ name, value }: CDisconnectButtonProps) => {
         url: `/open/disconnect?siteId=${getSiteId()}`
       });
       disConnectStateService
-        .put({})
+        .update({})
         .then(data => {
           disconnectCallback();
         })
