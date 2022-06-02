@@ -6,7 +6,7 @@ import {
 } from '@comm100/framework/Infrastructure/EntityRepository';
 import { Base } from '@comm100/framework/Domain/Base';
 import { Entity } from '@comm100/framework/Domain/Bo/Entity';
-import { vincallDomain } from '../config';
+import { apiDomain } from '../config';
 import { sendHttpRequest } from '@comm100/framework/Infrastructure/Network';
 
 export interface IVincallDomainService<T> {
@@ -32,7 +32,7 @@ export class VincallDomainService<T extends Entity> extends Base
 
   constructor({ url, token }: VincallDomainServiceProps) {
     super();
-    this.url = `${vincallDomain}${url}`;
+    this.url = `${apiDomain}${url}`;
     this.vincallRepo = createEntityRepository({
       url: this.url,
       token

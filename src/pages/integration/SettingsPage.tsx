@@ -12,6 +12,7 @@ import { VincallDomainService } from '../../domains/VincallDomainService';
 import { getSiteId } from '../../helper/getSiteInfo';
 import { ConnectState } from '../../domains/bo/ConnectStateBo';
 import { PageContextProvider } from './PageContext';
+import { apiDomain, oauthDomain } from '../../config';
 
 export type ConnectStatus = 'connecting' | 'connected' | 'unconnected';
 
@@ -39,14 +40,14 @@ export const SettingsPage = () => {
     handleRef.current = delayOpenWindow(
       async () => {
         return [
-          'https://oauthvincall.comm100dev.io/connect/authorize',
+          `${oauthDomain}/connect/authorize`,
           '?client_id=vincall',
           '&response_type=code',
           '&scope=api',
           `&redirect_uri=${encodeURIComponent(
-            `https://apivincall.comm100dev.io/open/login/callback?redirect_uri=${encodeURIComponent(
+            `${apiDomain}/open/login/callback?redirect_uri=${encodeURIComponent(
               callbackHref
-            )}&siteId=${getSiteId()}&domain=${'https://oauthvincall.comm100dev.io'}`
+            )}&siteId=${getSiteId()}&domain=${oauthDomain}`
           )}`
         ].join('');
       },
