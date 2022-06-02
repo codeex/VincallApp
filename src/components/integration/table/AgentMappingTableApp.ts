@@ -122,7 +122,7 @@ export const agentMappingTableApp = ({
       const agents = await client.request('/api/Global/agents', {
         params: {
           ...values,
-          pageIndex: pageInfo.page.toString(),
+          pageIndex: pageInfo.page > 0 ? pageInfo.page.toString() : '1',
           pageSize: pageInfo.pageSize.toString()
         }
       } as any);
