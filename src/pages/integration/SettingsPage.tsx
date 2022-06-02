@@ -45,8 +45,7 @@ export const SettingsPage = () => {
           `&redirect_uri=${encodeURIComponent(
             `https://apivincall.comm100dev.io/open/login/callback?redirect_uri=${encodeURIComponent(
               callbackHref
-            )}&siteId=${getSiteId() ||
-              10000}&domain=${"https://oauthvincall.comm100dev.io"}`
+            )}&siteId=${getSiteId()}&domain=${"https://oauthvincall.comm100dev.io"}`
           )}`
         ].join("");
       },
@@ -59,32 +58,8 @@ export const SettingsPage = () => {
       }
     );
   };
-  const handleMessage = async (event: any) => {
-    const { code } = event.data;
-    const pathname = event.source.location.pathname;
 
-    if (pathname.toLowerCase().indexOf("vincallcallback.html") >= 0 && code) {
-      setIsIntegrating(true);
-
-      handleRef.current.then(h => h.close());
-
-      const connectStateService = new VincallDomainService({
-        url: `/open/connectState?siteId=${getSiteId()}`
-      });
-      connectStateService
-        .get()
-        .then(data => {
-          setConnectStatus(data.connected ? "connected" : "unconnected");
-          setConnectData(data as ConnectState);
-          setIsIntegrating(false);
-        })
-        .catch(err => {
-          setConnectStatus("unconnected");
-        });
-    }
-  };
-  const handleLoad = () => {
-    // check connect state
+  const handleLoadConnectState = () => {
     const connectStateService = new VincallDomainService({
       url: `/open/connectState?siteId=${getSiteId()}`
     });
@@ -97,6 +72,22 @@ export const SettingsPage = () => {
       .catch(err => {
         setConnectStatus("unconnected");
       });
+  };
+  const handleMessage = async (event: any) => {
+    const { code } = event.data;
+    const pathname = event.source.location.pathname;
+
+    if (pathname.toLowerCase().indexOf("vincallcallback.html") >= 0 && code) {
+      setIsIntegrating(true);
+
+      handleRef.current.then(h => h.close());
+
+      handleLoadConnectState();
+    }
+  };
+  const handleLoad = () => {
+    // check connect state
+    handleLoadConnectState();
     //register message event
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
