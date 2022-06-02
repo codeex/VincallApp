@@ -32,6 +32,7 @@ export const CDrawerIconButton = ({
   });
 
   const okHandler = useEventCallback(() => {
+    setOpen(false);
     saveAgentMappings();
   });
 

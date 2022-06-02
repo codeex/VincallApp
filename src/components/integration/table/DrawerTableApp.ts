@@ -59,8 +59,8 @@ export const drawerTableApp = ({
   });
 
   const radioSelectedHandler = useEventCallback(
-    (selected: number[], rows?: VinCallAgentDto[]) => {
-      radioSelected(agentMapping, rows![0]);
+    (selected: number[], rows: VinCallAgentDto[] = []) => {
+      radioSelected(agentMapping, rows[selected[0]]);
       setSelectedIndexes(selected);
     }
   );
