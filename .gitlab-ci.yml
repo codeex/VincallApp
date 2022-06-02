@@ -1,0 +1,136 @@
+# import gitlab ci job templates
+include:
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/code-static-scan.yaml"
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/build.yaml"
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/push-docker-image.yaml"
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/deploy.yaml"
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/ingress-changes.yaml"
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/create-release.yaml"
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/notify.yaml"
+  - project: "initial/gitlab-ci-templates"
+    ref: nodejs
+    file: "jobs/check-test-branch.yaml"
+
+# set global variables
+variables:
+  BUILD_COMMAND: "npm run build"
+  CI_PROJECT_NAME: "vincallportal"
+  PARTNER_DOMAIN: "partner.comm100.io"
+  # do not change the following viariables
+  IMAGE_REPOSITORY: "x2"
+  CONTAINER_IMAGE: ${CI_REGISTRY}/${IMAGE_REPOSITORY}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+  CONTAINER_IMAGE_LASTEST: ${CI_REGISTRY}/${IMAGE_REPOSITORY}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}
+  CONTAINER_IMAGE_TEST: ${ONLINE_REGISTRY}/${IMAGE_REPOSITORY}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+  GIT_DEPTH: 0
+
+# define jobs
+stages:
+  - code-static-scan
+  - build
+  - push-docker-image
+  - deploy
+  - ingress-changes
+  - notify
+  - check-test-branch
+
+# run jobs
+code-static-scan:
+  stage: code-static-scan
+  extends: .code-static-scan
+  interruptible: true
+
+build:
+  stage: build
+  image:
+    name: registry.comm100dev.io/common/node:12.22.3-buster
+  extends: .build
+  after_script:
+    - ${BUILD_COMMAND}
+  interruptible: true
+  timeout: 200 minutes
+  only:
+    - branches
+    - tags
+  except:
+    - dev
+    - /^feature-.*$/
+
+push-docker-image:
+  stage: push-docker-image
+  extends: .push-docker-image
+  interruptible: true
+  dependencies:
+    - build
+  only:
+    - branches
+    - tags
+  except:
+    - dev
+    - /^feature-.*$/
+
+deploy:
+  stage: deploy
+  extends: .deploy
+  interruptible: true
+  dependencies:
+    - push-docker-image
+  only:
+    - branches
+    - tags
+  except:
+    - dev
+    - /^feature-.*$/
+
+ingress-changes:
+  stage: ingress-changes
+  extends: .ingress-changes
+  interruptible: true
+  dependencies:
+    - push-docker-image
+  only:
+    refs:
+      - branches
+    changes:
+      - ingress.yaml
+  except:
+    - dev
+    - /^feature-.*$/
+
+notify:
+  stage: notify
+  extends: .notify
+  interruptible: true
+  only:
+    - branches
+    - tags
+  except:
+    - dev
+    - /^feature-.*$/
+  when: on_failure
+
+check-test-branch:
+  stage: check-test-branch
+  extends: .check-test-branch
+  interruptible: true
+  needs: []
+  only:
+    - branches
+  except:
+    - dev
+    - master
+    - /^test-.*$/
+    - /^feature-.*$/
