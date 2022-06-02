@@ -44,31 +44,29 @@ export const drawerTableApp = ({
     url: `/api/agents`
   });
 
-  const loadAgents = (pageInfo: Pagination, values: Values) => {
-    return vincallAgentService.getPageList({
+  const loadAgents = async (pageInfo: Pagination, values: Values) => {
+    const vincallRsp = await vincallAgentService.getPageList({
       ...values,
       pageNum: pageInfo.page,
       pageSize: pageInfo.pageSize
     });
-  };
-
-  const searchHandler = useEventCallback(async (values: Values) => {
-    const vincallRsp = await loadAgents({ ...pagination, page: 0 }, values);
-    setAgents(vincallRsp.agents as VinCallAgentDto[]);
-    setTotalCount(vincallRsp.count);
-    setSearchFilter(values);
-  });
-  const loadHandler = useEventCallback(async () => {
-    const vincallRsp = await loadAgents(pagination, searchFilter);
     if (vincallRsp.agents.length > 0) {
       const index = vincallRsp.agents.findIndex(
-        (item) => item.id === agentMapping.vincallAgentId
+        (item) => item.userAccount === agentMapping.vincallAgentId
       );
       setSelectedIndexes([index >= 0 ? index : 0]);
       radioSelected(agentMapping, vincallRsp.agents[0] as VinCallAgentDto);
     }
     setAgents(vincallRsp.agents as VinCallAgentDto[]);
     setTotalCount(vincallRsp.count);
+  };
+
+  const searchHandler = useEventCallback(async (values: Values) => {
+    await loadAgents({ ...pagination, page: 0 }, values);
+    setSearchFilter(values);
+  });
+  const loadHandler = useEventCallback(async () => {
+    await loadAgents(pagination, searchFilter);
     setLoading(false);
   });
 
@@ -80,9 +78,7 @@ export const drawerTableApp = ({
   );
 
   const paginationHandler = async (pageInfo: Pagination) => {
-    const vincallRsp = await loadAgents(pageInfo, searchFilter);
-    setAgents(vincallRsp.agents as VinCallAgentDto[]);
-    setTotalCount(vincallRsp.count);
+    await loadAgents(pageInfo, searchFilter);
     setPagination(pageInfo);
   };
 
