@@ -11,6 +11,7 @@ import { CVincallConnectContainerStyled } from "../../styledComponents/CVincallC
 import { VincallDomainService } from "../../domains/VincallDomainService";
 import { getSiteId } from "../../helper/getSiteInfo";
 import { ConnectState } from "../../domains/bo/ConnectStateBo";
+import { PageContextProvider } from "./PageContext";
 
 export type ConnectStatus = "connecting" | "connected" | "unconnected";
 
@@ -96,6 +97,8 @@ export const SettingsPage = () => {
     return handleLoad();
   }, []);
 
+  const PageContext = React.createContext({});
+
   return (
     <CPage
       id="settingsPage"
@@ -103,23 +106,31 @@ export const SettingsPage = () => {
       description="Description"
       onClickGoBack={clickGoBackHandle}
     >
-      {connectStatus === "connecting" && <CFormSkeleton />}
-      {connectStatus === "unconnected" && (
-        <>
-          {isIntegrating && (
-            <CVincallConnectContainerStyled>
-              <CCircularProgressStyled size={50} />
-            </CVincallConnectContainerStyled>
-          )}
-          {!isIntegrating && <CUnConnected onClick={clickConnectHandle} />}
-        </>
-      )}
-      {connectStatus === "connected" &&
-        connectData && (
-          <CIntegrationForm connect={connectData}>
-            <CFormContent />
-          </CIntegrationForm>
+      <PageContextProvider
+        value={{
+          disconnectCallback: () => {
+            setConnectStatus("unconnected");
+          }
+        }}
+      >
+        {connectStatus === "connecting" && <CFormSkeleton />}
+        {connectStatus === "unconnected" && (
+          <>
+            {isIntegrating && (
+              <CVincallConnectContainerStyled>
+                <CCircularProgressStyled size={50} />
+              </CVincallConnectContainerStyled>
+            )}
+            {!isIntegrating && <CUnConnected onClick={clickConnectHandle} />}
+          </>
         )}
+        {connectStatus === "connected" &&
+          connectData && (
+            <CIntegrationForm connect={connectData}>
+              <CFormContent />
+            </CIntegrationForm>
+          )}
+      </PageContextProvider>
     </CPage>
   );
 };
