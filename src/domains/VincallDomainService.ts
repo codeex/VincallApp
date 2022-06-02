@@ -7,6 +7,7 @@ import {
 import { Base } from '@comm100/framework/Domain/Base';
 import { Entity } from '@comm100/framework/Domain/Bo/Entity';
 import { vincallDomain } from '../config';
+import { sendHttpRequest } from '@comm100/framework/Infrastructure/Network';
 
 export interface IVincallDomainService<T> {
   get(id?: EntityId): Promise<T>;
@@ -16,6 +17,7 @@ export interface IVincallDomainService<T> {
   reOrder(ids: EntityId[]): Promise<T>;
   delete(id: EntityId): Promise<void>;
   update(data: any): Promise<any>;
+  getPageList(params: QueryParam): Promise<any>;
 }
 
 export interface VincallDomainServiceProps {
@@ -36,6 +38,15 @@ export class VincallDomainService<T extends Entity> extends Base
       token
     });
     this.vincallRepo.getUrl = this.getUrl.bind(this);
+  }
+  async getPageList(params: QueryParam): Promise<any> {
+    return (
+      await sendHttpRequest({
+        url: this.url,
+        method: 'GET',
+        params
+      })
+    ).data;
   }
 
   get(id?: EntityId) {

@@ -4,6 +4,7 @@ import { useMemo } from '@comm100/framework/Helpers';
 import noRecordsImage from '../../../images/norecordsfound.svg';
 import {
   CTable,
+  Pagination,
   TableColumn
 } from '@comm100/framework/Components/Table/CTable';
 import { CTableBodyCellText } from '@comm100/framework/Components/Table/CTableBodyCellText';
@@ -15,6 +16,7 @@ import { CTableEmptyBody } from '@comm100/framework/Components/Table/CTableEmpty
 import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
 import { drawerTableApp } from './DrawerTableApp';
 import { AgentMappingDto } from '../Dto/AgentMappingDto';
+import { Values } from '@comm100/framework/Components/Table/CTableFilterContext';
 
 export type CDrawerTableProps = {
   agentMapping: AgentMappingDto;
@@ -25,14 +27,23 @@ export const CDrawerTable = ({ agentMapping }: CDrawerTableProps) => {
     loading,
     selectedIndexes,
     agents,
+    totalCount,
+    pagination,
     searchHandler,
     loadHandler,
-    radioSelectedHandler
+    radioSelectedHandler,
+    paginationHandler
   } = drawerTableApp({
     loadingState: useState<boolean>(true),
     agentsState: useState<VinCallAgentDto[]>([]),
     selectedIndexesState: useState<number[]>([0]),
-    agentMapping
+    agentMapping,
+    paginationState: useState<Pagination>({
+      page: 0,
+      pageSize: 10
+    }),
+    filterState: useState<Values>({}),
+    totalCountState: useState<number>(0)
   });
 
   useEffect(() => {
@@ -81,10 +92,12 @@ export const CDrawerTable = ({ agentMapping }: CDrawerTableProps) => {
       {loading && <CTableSkeleton />}
       {!loading && (
         <CTable
-          data={{ rows: agents, totalCount: agents.length }}
+          data={{ rows: agents, totalCount: totalCount }}
           enableSingleSelectOperation
           columns={columns}
           maxLinesOfRow={3}
+          enablePagination
+          pagination={pagination}
           selectedIndexes={selectedIndexes}
           emptyBody={
             <CTableEmptyBody
@@ -93,6 +106,7 @@ export const CDrawerTable = ({ agentMapping }: CDrawerTableProps) => {
             />
           }
           onSelect={radioSelectedHandler}
+          onPaginationChange={paginationHandler}
         />
       )}
     </>
