@@ -2,10 +2,11 @@
   "manifestVersion": "2.0",
   "agentConsole": {
     "widgets": {
-      "topBar": {
-        "id": "vincall-button",
-        "url": "./topbar/index.html",
-        "icon": "./topbar/icon.svg"
+      "navBar": {
+        "id": "vincall-nav-bar",
+        "label": "Vin Call",
+        "url": "https://wwwtest.vincall.net/oauth/login",
+        "icon": "./icon.svg"
       }
     }
   }
