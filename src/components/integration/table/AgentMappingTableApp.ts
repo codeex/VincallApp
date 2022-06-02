@@ -63,7 +63,7 @@ export const agentMappingTableApp = ({
     mappedAgentsRef.current = mappedAgents.filter(
       (item) => item.comm100AgentId !== agent.agentId
     );
-    await agentMappingService.put(mappedAgentsRef.current);
+    await agentMappingService.update(mappedAgentsRef.current);
     client.do('controlpanel.message.snack', {
       message: `Agent unmapping successfully.`
     });
@@ -91,7 +91,7 @@ export const agentMappingTableApp = ({
         ...currentMappedAgentRef.current
       });
     }
-    await agentMappingService.put(mappedAgentsRef.current);
+    await agentMappingService.update(mappedAgentsRef.current);
     client.do('controlpanel.message.snack', {
       message: `Agent mapping successfully.`
     });
