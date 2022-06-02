@@ -32,6 +32,7 @@ export type AgentMappingTableAppProps = {
   agentMappingsState: UIState<AgentMappingDto[]>;
   totalCountState: UIState<number>;
   paginationState: UIState<Pagination>;
+  filterState: UIState<Values>;
 };
 
 export type AgentMappingTableApp = {
@@ -49,7 +50,8 @@ export const agentMappingTableApp = ({
   loadingState: [loading, setLoading],
   agentMappingsState: [agentMappings, setAgentMappings],
   paginationState: [pagination, setPagination],
-  totalCountState: [totalCount, setTotalCount]
+  totalCountState: [totalCount, setTotalCount],
+  filterState: [searchFilter, setSearchFilter]
 }: AgentMappingTableAppProps): AgentMappingTableApp => {
   const client = APPClient.init();
   const mappedAgentsRef = useRef<AgentMappingBo[]>();
@@ -63,7 +65,7 @@ export const agentMappingTableApp = ({
     mappedAgentsRef.current = mappedAgents.filter(
       (item) => item.comm100AgentId !== agent.agentId
     );
-    await agentMappingService.put(mappedAgentsRef.current);
+    await agentMappingService.update(mappedAgentsRef.current);
     client.do('controlpanel.message.snack', {
       message: `Agent unmapping successfully.`
     });
@@ -91,7 +93,7 @@ export const agentMappingTableApp = ({
         ...currentMappedAgentRef.current
       });
     }
-    await agentMappingService.put(mappedAgentsRef.current);
+    await agentMappingService.update(mappedAgentsRef.current);
     client.do('controlpanel.message.snack', {
       message: `Agent mapping successfully.`
     });
@@ -115,14 +117,15 @@ export const agentMappingTableApp = ({
     const newPagination = { ...pagination, page: 1 };
     await loadAgents(newPagination, values);
     setPagination(newPagination);
+    setSearchFilter(values);
   };
 
-  const loadAgents = async (pageInfo: Pagination, values: Values = {}) => {
+  const loadAgents = async (pageInfo: Pagination, values: Values) => {
     if (process.env.NODE_ENV === 'production') {
       const agents = await client.request('/api/Global/agents', {
         params: {
           ...values,
-          pageIndex: pageInfo.page.toString(),
+          pageIndex: pageInfo.page > 0 ? pageInfo.page.toString() : '1',
           pageSize: pageInfo.pageSize.toString()
         }
       } as any);
@@ -154,12 +157,12 @@ export const agentMappingTableApp = ({
   const loadHandler = async () => {
     mappedAgentsRef.current = ((await agentMappingService.getList()) ||
       []) as AgentMappingBo[];
-    await loadAgents(pagination);
+    await loadAgents(pagination, searchFilter);
     setLoading(false);
   };
 
   const paginationHandler = async (pageInfo: Pagination) => {
-    await loadAgents(pageInfo);
+    await loadAgents(pageInfo, searchFilter);
     setPagination(pageInfo);
   };
 
