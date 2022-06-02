@@ -109,7 +109,7 @@ export const agentMappingTableApp = ({
       email: agent.email,
       partnerId: agent.partnerId.toString(),
       siteId: agent.siteId.toString(),
-      vincallAgentId: vincallAgent.id.toString()
+      vincallAgentId: vincallAgent.userAccount
     };
   };
 

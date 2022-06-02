@@ -64,7 +64,7 @@ export const CAgentMappingTable = () => {
       {
         id: 'vincallAgentId',
         isAllowSort: false,
-        headerText: 'Vincall Agent ID',
+        headerText: 'Vincall Agent Account',
         content: {
           name: 'vincallAgentId',
           isIcon: false,
@@ -101,7 +101,7 @@ export const CAgentMappingTable = () => {
           <CTableFilterControl
             name='keywords'
             component={CKeywordSearch}
-            placeholder='Search app'
+            placeholder='Search Comm100 Agent'
           />
         </CTableFilter>
       </CTableAction>

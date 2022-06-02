@@ -104,7 +104,7 @@ export const SettingsPage = () => {
     <CPage
       id='settingsPage'
       title='VinCall Integration'
-      description='You can use vincall to enable the phone channel. We allow Agent to use Vincall directly in the Agent Console to answer calls or call users directly.'
+      description='Integrate VinCall with Comm100 in minutes and deliver phone support from the Comm100 Agent Console where your team use to manage all other channels.'
       onClickGoBack={clickGoBackHandle}
     >
       <PageContextProvider
