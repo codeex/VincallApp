@@ -1,42 +1,42 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const { merge } = require('webpack-merge');
-const base = require('./webpack.base.config');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const { merge } = require("webpack-merge");
+const base = require("./webpack.base.config");
 
-const getPath = (p) => path.resolve(__dirname, p);
+const getPath = p => path.resolve(__dirname, p);
 
 // @ts-ignore
 const config = merge(base, {
   entry: {
-    integration: './src/pages/integration/main.tsx',
-    topBar: './src/pages/topbar/main.tsx'
+    integration: "./src/pages/integration/main.tsx",
+    topBar: "./src/pages/topbar/main.tsx"
   },
-  mode: 'production',
+  mode: "production",
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, "dist"),
     filename: `[name]_bundle.js`
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'integration.html',
-      template: './src/pages/integration/index.html',
-      chunks: ['integration']
+      filename: "integration.html",
+      template: "./src/pages/integration/index.html",
+      chunks: ["integration"]
     }),
     new HtmlWebpackPlugin({
-      filename: 'topBar.html',
-      template: './src/pages/topbar/index.html',
-      chunks: ['topBar']
+      filename: "topBar.html",
+      template: "./src/pages/topbar/index.html",
+      chunks: ["topBar"]
     })
   ],
   resolve: {
     alias: {
-      src: getPath('./src')
+      src: getPath("./src")
     }
   },
   optimization: {

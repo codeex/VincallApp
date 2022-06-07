@@ -1,15 +1,15 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { CProviders } from '../../components/CProviders';
-import '../../CSS/main.css';
-import { SettingsPage } from './SettingsPage';
+import React from "react";
+import { render } from "react-dom";
+import { CProviders } from "../../components/CProviders";
+import "../../CSS/main.css";
+import { Login } from "./Login";
 
 const App = () => {
   return (
     <CProviders>
-      <SettingsPage />
+      <Login />
     </CProviders>
   );
 };
 
-render(<App />, document.getElementById('main'));
+render(<App />, document.getElementById("main"));

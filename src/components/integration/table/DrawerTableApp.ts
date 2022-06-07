@@ -1,9 +1,10 @@
-import { Pagination, Values } from '@comm100/framework/Components/Table';
-import { UIState, useEventCallback } from '@comm100/framework/Helpers';
-import { VincallDomainService } from '../../../domains/VincallDomainService';
-import { AgentMappingDto } from '../Dto/AgentMappingDto';
-import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
-import { useTableContext } from './TableContext';
+import { Pagination, Values } from "@comm100/framework/Components/Table";
+import { UIState, useEventCallback } from "@comm100/framework/Helpers";
+import { getSessionStorageAccessToken } from "src/helper/getSiteInfo";
+import { VincallDomainService } from "../../../domains/VincallDomainService";
+import { AgentMappingDto } from "../Dto/AgentMappingDto";
+import { VinCallAgentDto } from "../Dto/VinCallAgentDto";
+import { useTableContext } from "./TableContext";
 
 export type DrawerTableAppProps = {
   loadingState: UIState<boolean>;
@@ -41,7 +42,8 @@ export const drawerTableApp = ({
 }: DrawerTableAppProps): DrawerTableApp => {
   const { radioSelected } = useTableContext();
   const vincallAgentService = new VincallDomainService({
-    url: `/api/agents`
+    url: `/api/agents`,
+    token: getSessionStorageAccessToken()!
   });
 
   const loadAgents = async (pageInfo: Pagination, values: Values) => {
@@ -52,7 +54,7 @@ export const drawerTableApp = ({
     });
     if (vincallRsp.agents.length > 0) {
       const index = vincallRsp.agents.findIndex(
-        (item) => item.userAccount === agentMapping.vincallAgentId
+        item => item.userAccount === agentMapping.vincallAgentId
       );
       setSelectedIndexes([index >= 0 ? index : 0]);
       radioSelected(agentMapping, vincallRsp.agents[0] as VinCallAgentDto);
