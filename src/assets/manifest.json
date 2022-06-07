@@ -1,0 +1,17 @@
+{
+  "manifestVersion": "2.0",
+  "agentConsole": {
+    "widgets": {
+      "navBar": {
+        "id": "vincall-nav-bar",
+        "label": "Vin Call",
+        "url": "https://wwwtest.vincall.net/oauth/login"
+      },
+      "topBar": {
+        "id": "vincall-top-bar",
+        "url": "./topBar.html",
+        "icon": "./images/default.png"
+      }
+    }
+  }
+}
