@@ -34,6 +34,9 @@ const App = () => {
       })
       .then(function({ data }) {
         popperOpenRef.current = false;
+        client.on('agentconsole.popper.open', function() {
+          popperOpenRef.current = false;
+        });
       });
   }, []);
   return <></>;
