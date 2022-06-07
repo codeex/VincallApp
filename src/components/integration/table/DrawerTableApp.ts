@@ -42,7 +42,7 @@ export const drawerTableApp = ({
 }: DrawerTableAppProps): DrawerTableApp => {
   const { radioSelected } = useTableContext();
   const vincallAgentService = new VincallDomainService({
-    url: `/api/agents`,
+    url: `/open/agents`,
     token: getSessionStorageAccessToken()!
   });
 
