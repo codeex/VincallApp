@@ -4,7 +4,7 @@ import { APPClient } from '@comm100/app-client';
 import { AgentMappingDto } from '../Dto/AgentMappingDto';
 import { TableContextValue } from './TableContext';
 import { VincallDomainService } from '../../../domains/VincallDomainService';
-import { getSiteId } from '../../../helper/getSiteInfo';
+import { getSessionStorageAccessToken, getSiteId } from '../../../helper/getSiteInfo';
 import { AgentMappingBo } from '../../../domains/bo/AgentMappingBo';
 import { useRef } from 'react';
 import { VinCallAgentDto } from '../Dto/VinCallAgentDto';
@@ -57,7 +57,8 @@ export const agentMappingTableApp = ({
   const mappedAgentsRef = useRef<AgentMappingBo[]>();
   const currentMappedAgentRef = useRef<AgentMappingBo>();
   const agentMappingService = new VincallDomainService({
-    url: `/open/agentMappings?siteId=${getSiteId()}`
+    url: `/open/agentMappings?siteId=${getSiteId()}`,
+    token: getSessionStorageAccessToken()!
   });
 
   const brokeMapping = async (agent: AgentMappingDto) => {

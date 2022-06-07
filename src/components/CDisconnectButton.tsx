@@ -3,7 +3,7 @@ import { CFieldInputProps } from "@comm100/framework/Components/Form";
 import { CIconButton } from "@comm100/framework/Components/CIconButton";
 import { confirmDialog } from "@comm100/framework/Helpers";
 import { dispatchSuccessfullEvent } from "@comm100/framework/Infrastructure/CustomEvent";
-import { getSiteId } from "../helper/getSiteInfo";
+import { getSessionStorageAccessToken, getSiteId } from "../helper/getSiteInfo";
 import { VincallDomainService } from "../../src/domains/VincallDomainService";
 import { usePageContext } from "../../src/pages/integration/PageContext";
 
@@ -19,7 +19,8 @@ export const CDisconnectButton = ({ name, value }: CDisconnectButtonProps) => {
 
     if (confirm) {
       const disConnectStateService = new VincallDomainService({
-        url: `/open/disconnect?siteId=${getSiteId()}`
+        url: `/open/disconnect?siteId=${getSiteId()}`,
+        token: getSessionStorageAccessToken()!
       });
       disConnectStateService
         .update({})
