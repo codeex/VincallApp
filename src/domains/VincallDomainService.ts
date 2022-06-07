@@ -3,11 +3,11 @@ import {
   createEntityRepository,
   EntityId,
   QueryParam
-} from '@comm100/framework/Infrastructure/EntityRepository';
-import { Base } from '@comm100/framework/Domain/Base';
-import { Entity } from '@comm100/framework/Domain/Bo/Entity';
-import { apiDomain } from '../config';
-import { sendHttpRequest } from '@comm100/framework/Infrastructure/Network';
+} from "@comm100/framework/Infrastructure/EntityRepository";
+import { Base } from "@comm100/framework/Domain/Base";
+import { Entity } from "@comm100/framework/Domain/Bo/Entity";
+import { apiDomain } from "../config";
+import { sendHttpRequest } from "@comm100/framework/Infrastructure/Network";
 
 export interface IVincallDomainService<T> {
   get(id?: EntityId): Promise<T>;
@@ -33,6 +33,7 @@ export class VincallDomainService<T extends Entity> extends Base
   constructor({ url, token }: VincallDomainServiceProps) {
     super();
     this.url = `${apiDomain}${url}`;
+    this.token = token;
     this.vincallRepo = createEntityRepository({
       url: this.url,
       token
@@ -40,13 +41,12 @@ export class VincallDomainService<T extends Entity> extends Base
     this.vincallRepo.getUrl = this.getUrl.bind(this);
   }
   async getPageList(params: QueryParam): Promise<any> {
-    return (
-      await sendHttpRequest({
-        url: this.url,
-        method: 'GET',
-        params
-      })
-    ).data;
+    return (await sendHttpRequest({
+      url: this.url,
+      method: "GET",
+      params,
+      auth: this.token
+    })).data;
   }
 
   get(id?: EntityId) {
