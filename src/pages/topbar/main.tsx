@@ -26,6 +26,15 @@ const App = () => {
         });
       }
     });
+    client
+      .do('agentconsole.popper.open', {
+        widgetId: 'vincall-top-bar',
+        url: `./integration.html`,
+        open: false
+      })
+      .then(function({ data }) {
+        popperOpenRef.current = false;
+      });
   }, []);
   return <></>;
 };

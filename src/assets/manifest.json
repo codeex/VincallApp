@@ -10,7 +10,8 @@
       "topBar": {
         "id": "vincall-top-bar",
         "url": "./topBar.html",
-        "icon": "./images/default.png"
+        "icon": "./images/default.png",
+        "tooltip": "Available"
       }
     }
   }
