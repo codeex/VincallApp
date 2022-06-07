@@ -1,41 +1,41 @@
-const targetDomain = 'https://apivincall.comm100dev.io';
+const targetDomain = "https://apivincall.comm100dev.io";
 
 const removeCookieSecure = (proxyRes, req, res) => {
-  const sc = proxyRes.headers['set-cookie'];
+  const sc = proxyRes.headers["set-cookie"];
   if (Array.isArray(sc)) {
-    proxyRes.headers['set-cookie'] = sc.map((sc) => {
+    proxyRes.headers["set-cookie"] = sc.map(sc => {
       return sc
-        .split(';')
+        .split(";")
         .filter(
-          (v) =>
-            v.trim().toLowerCase() !== 'secure' &&
+          v =>
+            v.trim().toLowerCase() !== "secure" &&
             !v
               .trim()
               .toLowerCase()
-              .includes('samesite')
+              .includes("samesite")
         )
-        .join('; ');
+        .join("; ");
     });
   }
-  if (!proxyRes.headers['content-type']) {
-    proxyRes.headers['content-type'] = 'application/json';
+  if (!proxyRes.headers["content-type"]) {
+    proxyRes.headers["content-type"] = "application/json";
   }
 };
 module.exports = [
   {
-    path: '/api/agents',
+    path: "/open/agents",
     target: targetDomain,
     secure: false,
     changeOrigin: true,
-    cookieDomainRewrite: 'localhost',
+    cookieDomainRewrite: "localhost",
     onProxyRes: removeCookieSecure
   },
   {
-    path: '/open',
+    path: "/open",
     target: targetDomain,
     secure: false,
     changeOrigin: true,
-    cookieDomainRewrite: 'localhost',
+    cookieDomainRewrite: "localhost",
     onProxyRes: removeCookieSecure
   }
 ];
