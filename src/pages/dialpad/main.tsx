@@ -7,18 +7,26 @@ const App = () => {
   const client = APPClient.init();
   const popperOpenRef = useRef<boolean>(false);
   const popperContentUrl = `${vincallDomain}/#/phonedialer`;
-  const widgetId = 'vincall-top-bar';
+  const widgetId = 'vincall-dial-pad';
 
   const initPopper = () => {
+
+    // client.set('agentconsole.popper', {
+    //   widgetId,
+    //   url: popperContentUrl,
+    //   width: 337,
+    //   height: 585
+    // });
+
     client
       .do('agentconsole.popper.open', {
         widgetId,
         url: popperContentUrl,
         open: false
       })
-      .then(function() {
+      .then(function () {
         popperOpenRef.current = false;
-        client.on('agentconsole.popper.open', function() {
+        client.on('agentconsole.popper.open', function () {
           popperOpenRef.current = false;
         });
       });
@@ -32,19 +40,19 @@ const App = () => {
         width: 337,
         height: 585
       })
-      .then(function() {
+      .then(function () {
         popperOpenRef.current = true;
       });
   };
 
   const closePopper = () => {
-    client.do('agentconsole.popper.close').then(function() {
+    client.do('agentconsole.popper.close').then(function () {
       popperOpenRef.current = false;
     });
   };
 
   useEffect(() => {
-    client.on('agentconsole.topBar.buttons.click', function(topBar) {
+    client.on('agentconsole.topBar.buttons.click', function (button) {
       if (!popperOpenRef.current) {
         openPopper();
       } else {

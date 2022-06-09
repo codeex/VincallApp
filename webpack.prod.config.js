@@ -15,7 +15,7 @@ const getPath = p => path.resolve(__dirname, p);
 const config = merge(base, {
   entry: {
     integration: "./src/pages/integration/main.tsx",
-    topBar: "./src/pages/topbar/main.tsx"
+    dialpad: "./src/pages/dialpad/main.tsx"
   },
   mode: "production",
   output: {
@@ -29,9 +29,9 @@ const config = merge(base, {
       chunks: ["integration"]
     }),
     new HtmlWebpackPlugin({
-      filename: "topBar.html",
-      template: "./src/pages/topbar/index.html",
-      chunks: ["topBar"]
+      filename: "dialpad.html",
+      template: "./src/pages/dialpad/index.html",
+      chunks: ["dialpad"]
     })
   ],
   resolve: {

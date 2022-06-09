@@ -8,8 +8,8 @@
         "url": "https://wwwtest.vincall.net/oauth/login"
       },
       "topBar": {
-        "id": "vincall-top-bar",
-        "url": "./topBar.html",
+        "id": "vincall-dial-pad",
+        "url": "./dialpad.html",
         "icon": "./images/default.png",
         "tooltip": "Available"
       }
