@@ -75,6 +75,7 @@ export const SettingsPage = () => {
       .then(data => {
         setConnectStatus(data.connected ? "connected" : "unconnected");
         setConnectData(data as ConnectState);
+        setIsIntegrating(false);
       })
       .catch(err => {
         setConnectStatus("unconnected");
