@@ -14,5 +14,16 @@
         "tooltip": "Available"
       }
     }
+  },
+  "controlPanel": {
+    "pages": [
+      {
+        "id": "vincall-report",
+        "path": "reporting/vincallreport",
+        "url": "https://wwwtest.vincall.net/#/reports",
+        "icon": "./images/vincall.svg",
+        "label": "Vincall Report"
+      }
+    ]
   }
 }
