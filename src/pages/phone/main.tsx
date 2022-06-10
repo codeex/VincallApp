@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { render } from 'react-dom';
 import { APPClient } from '@comm100/app-client';
-import { vincallDomain } from 'src/config';
 
 const App = () => {
   const client = APPClient.init();
   const popperOpenRef = useRef<boolean>(false);
   const popperContentUrl = `${vincallDomain}/#/phonedialer`;
-  const widgetId = 'vincall-dial-pad';
+  const widgetId = 'vincall-phone';
 
   const initPopper = () => {
 
