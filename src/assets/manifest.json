@@ -5,7 +5,7 @@
       "navBar": {
         "id": "vincall-nav-bar",
         "label": "Vin Call",
-        "url": "https://wwwtest.vincall.net/oauth/login"
+        "url": "https://www.vincall.net/oauth/login"
       },
       "topBar": {
         "id": "vincall-phone",
@@ -20,7 +20,7 @@
       {
         "id": "vincall-report",
         "path": "reporting/vincallreport",
-        "url": "https://wwwtest.vincall.net/#/reports",
+        "url": "https://www.vincall.net/#/reports",
         "icon": "./images/vincall.svg",
         "label": "Vincall Report"
       }

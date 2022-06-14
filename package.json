@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@comm100/app-client": "0.0.9",
+    "comm100-app": "1.0.2",
     "@comm100/framework": "^3.6.27",
     "@comm100/styledComponents": "^3.6.14",
     "@material-ui/core": "4.11.0",
