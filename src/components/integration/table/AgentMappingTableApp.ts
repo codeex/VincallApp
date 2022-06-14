@@ -1,6 +1,6 @@
 import { Pagination, Values } from '@comm100/framework/Components/Table';
 import { UIState } from '@comm100/framework/Helpers';
-import { APPClient } from '@comm100/app-client';
+import { APPClient } from 'comm100-app';
 import { AgentMappingDto } from '../Dto/AgentMappingDto';
 import { TableContextValue } from './TableContext';
 import { VincallDomainService } from '../../../domains/VincallDomainService';

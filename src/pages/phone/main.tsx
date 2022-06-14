@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { render } from 'react-dom';
-import { APPClient } from '@comm100/app-client';
+import { APPClient } from 'comm100-app';
 
 const App = () => {
   const client = APPClient.init();

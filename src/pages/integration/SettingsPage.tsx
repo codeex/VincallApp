@@ -1,6 +1,6 @@
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { CFormSkeleton } from "@comm100/framework/Components/Form";
-import { APPClient } from "@comm100/app-client";
+import { APPClient } from "comm100-app";
 import { CFormContent } from "../../components/integration/form/CFormContent";
 import { CIntegrationForm } from "../../components/integration/form/CIntegrationForm";
 import { CPage } from "../../components/CPage";
