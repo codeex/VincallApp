@@ -2,12 +2,12 @@ import React from "react";
 import { render } from "react-dom";
 import { CProviders } from "../../components/CProviders";
 import "../../CSS/main.css";
-import { Login } from "./Login";
+import { Authentication } from "./Authentication";
 
 const App = () => {
   return (
     <CProviders>
-      <Login />
+      <Authentication />
     </CProviders>
   );
 };

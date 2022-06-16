@@ -7,7 +7,7 @@ import {
 } from "src/helper/getSiteInfo";
 import { SettingsPage } from "./SettingsPage";
 
-export const Login = () => {
+export const Authentication = () => {
   const [accessToken, setAccessToken] = useState("");
   const currentHref = window.location.href.substring(
     0,
